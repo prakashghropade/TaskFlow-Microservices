@@ -2,7 +2,6 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "rootDir": "src",
-    "build": "tsc",
     "outDir": "dist"
   },
   "include": ["src/**/*"]
