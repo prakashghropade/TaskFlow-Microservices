@@ -11,13 +11,14 @@ COPY package*.json ./
 
 # copy the  applications and shared packages
 COPY apps/media-service ./apps
-COPY packages/shared ./packages
+COPY packages/shared ./packages/shared
 
 # install dependencies
 RUN npm ci
 
-# Build all Typescript projects
-RUN npm run build
+ARG SERVICE
+
+RUN npm run build -w ${SERVICE}
 
 # =====================
 # Stage 2  Ruuntime
@@ -33,11 +34,11 @@ COPY package*.json ./
 # Install productioni dependencies
 Run npm ci --omit=dev
 
-# Copy application and shared packages
+ARG SERVICE
 
-COPY --from=builder /app/apps ./apps
+# Copy application and shared packages
+COPY --from=builder /app/apps/${SERVICE} ./apps/${SERVICE}
 COPY --from=builder /app/packages ./packages
 
-ARG SERVICE
 
 CMD ["sh", "-c", "npm run start:$SERVICE"]
