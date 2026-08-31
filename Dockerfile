@@ -39,6 +39,10 @@ RUN npm ci --omit=dev
 
 ARG SERVICE
 
+RUN ls
+
+RUN 
+
 # Copy the selected service from builder
 COPY --from=builder /app/apps/${SERVICE} ./apps/${SERVICE}
 
