@@ -18,8 +18,8 @@ RUN npm ci
 # Service to build
 ARG SERVICE
 
-# Build only selected service
-RUN npm run build -w ${SERVICE}
+# # Build only selected service
+# RUN npm run build -w ${SERVICE}
 
 
 # ================================
