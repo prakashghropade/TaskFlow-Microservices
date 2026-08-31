@@ -1,44 +1,48 @@
-# ================
-# Stage 1 - Dependencies
-# ===============
-
+# ================================
+# Stage 1 - Build
+# ================================
 FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-# copy the main  files
+# Root package files
 COPY package*.json ./
 
-# copy the  applications and shared packages
-COPY apps/media-service ./apps
-COPY packages/shared ./packages/shared
+# Copy required workspaces
+COPY apps ./apps
+COPY packages ./packages
 
-# install dependencies
+# Install dependencies
 RUN npm ci
 
+# Service to build
 ARG SERVICE
 
+# Build only selected service
 RUN npm run build -w ${SERVICE}
 
-# =====================
-# Stage 2  Ruuntime
-# =====================
 
-FROM node:20-alpine  AS production
+# ================================
+# Stage 2 - Runtime
+# ================================
+FROM node:20-alpine AS production
 
 WORKDIR /app
 
-# copy the packages files
+ENV NODE_ENV=production
+
 COPY package*.json ./
 
-# Install productioni dependencies
-Run npm ci --omit=dev
+# Install production dependencies
+RUN npm ci --omit=dev
 
 ARG SERVICE
 
-# Copy application and shared packages
+# Copy selected service
 COPY --from=builder /app/apps/${SERVICE} ./apps/${SERVICE}
-COPY --from=builder /app/packages ./packages
 
+# Copy shared package
+COPY --from=builder /app/packages/shared ./packages/shared
 
-CMD ["sh", "-c", "npm run start:$SERVICE"]
+# Start selected service
+CMD ["sh", "-c", "npm run start -w $SERVICE"]
