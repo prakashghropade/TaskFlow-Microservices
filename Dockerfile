@@ -38,6 +38,8 @@ RUN npm ci --omit=dev
 
 ARG SERVICE
 
+RUN ls
+
 RUN cat /app/apps/media-service/package.json
 RUN npm run --workspace=media-service
 
