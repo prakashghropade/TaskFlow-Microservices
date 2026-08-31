@@ -4,6 +4,7 @@
   "description": "",
   "scripts": {
     "dev": "tsx watch src/index.ts",
+    "build": "tsc",
     "start": "tsx src/index.ts"
   },
   "dependencies": {
