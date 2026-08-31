@@ -38,11 +38,16 @@ RUN npm ci --omit=dev
 
 ARG SERVICE
 
+RUN cat /app/apps/media-service/package.json
+RUN npm run --workspace=media-service
+
+RUN npm run build -w ${SERVICE}
+
 # Copy selected service
-COPY --from=builder /app/apps/${SERVICE} ./apps/${SERVICE}
+# COPY --from=builder /app/apps/${SERVICE} ./apps/${SERVICE}
 
-# Copy shared package
-COPY --from=builder /app/packages/shared ./packages/shared
+# # Copy shared package
+# COPY --from=builder /app/packages/shared ./packages/shared
 
-# Start selected service
-CMD ["sh", "-c", "npm run start -w $SERVICE"]
+# # Start selected service
+# CMD ["sh", "-c", "npm run start -w $SERVICE"]
