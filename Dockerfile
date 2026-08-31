@@ -40,6 +40,8 @@ ARG SERVICE
 
 RUN ls
 
+RUN pwd
+
 RUN cat /app/apps/media-service/package.json
 RUN npm run --workspace=media-service
 
