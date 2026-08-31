@@ -10,7 +10,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # copy the  applications and shared packages
-COPY apps/api-gatway ./apps
+COPY apps/media-service ./apps
 COPY packages/shared ./packages
 
 # install dependencies
