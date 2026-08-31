@@ -12,6 +12,10 @@ COPY package*.json ./
 COPY apps ./apps
 COPY packages ./packages
 
+RUN ls
+
+RUN pwd
+
 # Install dependencies
 RUN npm ci
 
