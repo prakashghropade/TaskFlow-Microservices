@@ -8,13 +8,9 @@ WORKDIR /app
 # Root package files
 COPY package*.json ./
 
-# Copy required workspaces
+# Copy applications and shared packages
 COPY apps ./apps
 COPY packages ./packages
-
-RUN ls
-
-RUN pwd
 
 # Install dependencies
 RUN npm ci
@@ -22,8 +18,8 @@ RUN npm ci
 # Service to build
 ARG SERVICE
 
-# # Build only selected service
-# RUN npm run build -w ${SERVICE}
+# Build selected service
+RUN npm run build -w ${SERVICE}
 
 
 # ================================
@@ -35,6 +31,7 @@ WORKDIR /app
 
 ENV NODE_ENV=production
 
+# Root package files
 COPY package*.json ./
 
 # Install production dependencies
@@ -42,20 +39,11 @@ RUN npm ci --omit=dev
 
 ARG SERVICE
 
-RUN ls
+# Copy the selected service from builder
+COPY --from=builder /app/apps/${SERVICE} ./apps/${SERVICE}
 
-RUN pwd
+# Copy shared package
+COPY --from=builder /app/packages/shared ./packages/shared
 
-RUN cat /app/apps/media-service/package.json
-RUN npm run --workspace=media-service
-
-RUN npm run build -w ${SERVICE}
-
-# Copy selected service
-# COPY --from=builder /app/apps/${SERVICE} ./apps/${SERVICE}
-
-# # Copy shared package
-# COPY --from=builder /app/packages/shared ./packages/shared
-
-# # Start selected service
-# CMD ["sh", "-c", "npm run start -w $SERVICE"]
+# Start selected service
+CMD ["sh", "-c", "npm run start -w $SERVICE"]
