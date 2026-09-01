@@ -1,4 +1,4 @@
-name: Auth Service CI
+name: Workflow Service CI
 
 on:
   push:
