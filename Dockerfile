@@ -48,3 +48,5 @@ COPY --from=builder /app/packages/shared ./packages/shared
 
 # Start selected service
 CMD ["sh", "-c", "npm run start -w $SERVICE"]
+
+# new chages in the docker file

@@ -53,5 +53,3 @@ export async function listAttachments(
   }
 }
 
-
-// updated the media service
