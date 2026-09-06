@@ -14,7 +14,7 @@ COPY packages ./packages
 COPY tsconfig.base.json ./ 
 
 # Service to build
-ARG SERVICE=auth-service
+ARG SERVICE
 ENV SERVICE=${SERVICE}
 
 # Install dependencies after all workspace manifests are available.
@@ -34,7 +34,7 @@ FROM node:20-alpine AS production
 
 WORKDIR /app
 
-ARG SERVICE=auth-service
+ARG SERVICE
 
 ENV SERVICE=${SERVICE}
 
