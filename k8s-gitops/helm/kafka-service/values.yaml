@@ -156,20 +156,22 @@ resources: {}
 startupProbe:
   exec:
     command:
-      - sh
-      - -c
-      - "kafka-broker-api-versions.sh --bootstrap-server localhost:9092"
+      - /opt/kafka/bin/kafka-broker-api-versions.sh
+      - --bootstrap-server
+      - localhost:9092
   initialDelaySeconds: 20
   periodSeconds: 10
   timeoutSeconds: 10
   failureThreshold: 30
 
+  
+
 readinessProbe:
   exec:
     command:
-      - sh
-      - -c
-      - "kafka-broker-api-versions.sh --bootstrap-server localhost:9092"
+      - /opt/kafka/bin/kafka-broker-api-versions.sh
+      - --bootstrap-server
+      - localhost:9092
   periodSeconds: 10
   timeoutSeconds: 10
   failureThreshold: 3
@@ -177,9 +179,9 @@ readinessProbe:
 livenessProbe:
   exec:
     command:
-      - sh
-      - -c
-      - "kafka-broker-api-versions.sh --bootstrap-server localhost:9092"
+      - /opt/kafka/bin/kafka-broker-api-versions.sh
+      - --bootstrap-server
+      - localhost:9092
   periodSeconds: 20
   timeoutSeconds: 10
   failureThreshold: 3
