@@ -1,0 +1,12 @@
+{
+  "yaml.validate": false,
+  "files.associations": {
+    "*.tpl": "helm",
+    "Chart.yaml": "yaml"
+  },
+  "yaml.schemas": {
+    "https://json.schemastore.org/chart.json": [
+      "Chart.yaml"
+    ]
+  }
+}
