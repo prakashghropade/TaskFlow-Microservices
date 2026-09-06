@@ -18,6 +18,7 @@ RUN npm ci
 
 # Service to build
 ARG SERVICE
+ENV SERVICE=${SERVICE}
 
 # Build selected service
 RUN npm run build -w ${SERVICE}
@@ -30,15 +31,16 @@ FROM node:20-alpine AS production
 
 WORKDIR /app
 
+ARG SERVICE
+
 ENV NODE_ENV=production
+ENV SERVICE=${SERVICE}
 
 # Root package files
 COPY package*.json ./
 
 # Install production dependencies
 RUN npm ci --omit=dev
-
-ARG SERVICE
 
 # Copy the selected service from builder
 COPY --from=builder /app/apps/${SERVICE} ./apps/${SERVICE}
