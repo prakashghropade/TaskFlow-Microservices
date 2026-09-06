@@ -2,6 +2,9 @@
   "name": "shared",
   "version": "1.0.0",
   "description": "shared logic added",
+  "scripts": {
+    "build": "tsc"
+  },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {

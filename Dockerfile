@@ -6,24 +6,24 @@ FROM node:20 AS builder
 WORKDIR /app
 
 # Root package files
-COPY package*.json ./
+COPY package.json package-lock.json ./
 
 # Copy applications and shared packages
 COPY apps ./apps
 COPY packages ./packages
-COPY tsconfig.base.json ./
-
-# Install all dependencies
-RUN npm ci
+COPY tsconfig.base.json ./ 
 
 # Service to build
-ARG SERVICE
+ARG SERVICE=auth-service
 ENV SERVICE=${SERVICE}
 
-# Build shared package first
+# Install dependencies after all workspace manifests are available.
+RUN npm ci
+
+# Build the shared package first because services resolve its compiled exports.
 RUN npm run build -w shared
 
-# Build selected service
+# Build the selected service.
 RUN npm run build -w ${SERVICE}
 
 
@@ -34,25 +34,21 @@ FROM node:20-alpine AS production
 
 WORKDIR /app
 
-ARG SERVICE
+ARG SERVICE=auth-service
+
 ENV SERVICE=${SERVICE}
-ENV NODE_ENV=production
 
 # Root package files
-COPY package*.json ./
-
-# Copy workspace package.json files
-COPY apps/${SERVICE}/package.json ./apps/${SERVICE}/package.json
-COPY packages/shared/package.json ./packages/shared/package.json
+COPY package.json package-lock.json ./
+COPY apps ./apps
+COPY packages ./packages
 
 # Install production dependencies
 RUN npm ci --omit=dev
 
-# Copy compiled service
+# Copy compiled output for the selected service and shared package.
 COPY --from=builder /app/apps/${SERVICE}/dist ./apps/${SERVICE}/dist
+COPY --from=builder /app/packages/shared ./packages/shared
 
-# Copy compiled shared package
-COPY --from=builder /app/packages/shared/dist ./packages/shared/dist
-
-# Start selected service
-CMD ["sh", "-c", "npm run start -w $SERVICE"]
+# Start the compiled service without requiring dev-only tooling such as tsx.
+CMD ["sh", "-c", "node apps/$SERVICE/dist/index.js"]
