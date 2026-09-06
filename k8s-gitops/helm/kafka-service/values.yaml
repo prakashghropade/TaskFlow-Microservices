@@ -54,7 +54,8 @@ service:
   # This sets the service type more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types
   type: ClusterIP
   # This sets the ports more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#field-spec-ports
-  port: 9092
+  brokerPort: 9092
+  controllerPort: 9093
 
 env:
   - name: KAFKA_NODE_ID

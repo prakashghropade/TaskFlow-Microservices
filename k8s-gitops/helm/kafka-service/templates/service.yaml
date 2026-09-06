@@ -7,9 +7,13 @@ metadata:
 spec:
   type: {{ .Values.service.type }}
   ports:
-    - port: {{ .Values.service.port }}
-      targetPort: http
+    - port: {{ .Values.service.brokerPort }}
+      targetPort: broker
       protocol: TCP
-      name: http
+      name: broker
+    - port: {{ .Values.service.controllerPort }}
+      targetPort: controller
+      protocol: TCP
+      name: controller
   selector:
     {{- include "kafka-service.selectorLabels" . | nindent 4 }}
