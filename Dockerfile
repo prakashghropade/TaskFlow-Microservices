@@ -1,7 +1,7 @@
 # ================================
 # Stage 1 - Build
 # ================================
-FROM node:20-alpine AS builder
+FROM node:20 AS builder
 
 WORKDIR /app
 
@@ -33,17 +33,19 @@ WORKDIR /app
 
 ARG SERVICE
 
-ENV NODE_ENV=production
 ENV SERVICE=${SERVICE}
 
 # Root package files
 COPY package*.json ./
+COPY apps ./apps
+COPY packages ./packages
 
 # Install production dependencies
 RUN npm ci --omit=dev
 
 # Copy the selected service from builder
-COPY --from=builder /app/apps/${SERVICE} ./apps/${SERVICE}
+# COPY --from=builder /app/apps/${SERVICE} ./apps/${SERVICE}
+COPY --from=builder /app/apps/${SERVICE}/dist ./apps/${SERVICE}/dist
 
 # Copy shared package
 COPY --from=builder /app/packages/shared ./packages/shared
