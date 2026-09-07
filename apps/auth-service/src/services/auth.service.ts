@@ -19,6 +19,7 @@ export async function register(input: RegisterInput) {
     role: "USER",
   });
 
+  
   return convertToPublicUser(user);
 }
 
