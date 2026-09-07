@@ -64,5 +64,5 @@ Create the name of the service account to use
 
 {{/* Define the name of the secret to use */}}
 {{- define "workflow-service.secretName" -}}
-{{- default (include "workflow-service.fullname" .) .Values.secret.name }}
+{{- include "workflow-service.fullname" . }}-secret
 {{- end }}
