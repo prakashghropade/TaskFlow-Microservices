@@ -44,6 +44,10 @@ spec:
             - name: http
               containerPort: {{ .Values.service.port }}
               protocol: TCP
+          
+          envFrom:
+            - secretRef:
+                name: {{ include "workflow-service.secretName" . }}
 
           {{- with .Values.startupProbe }}
           startupProbe:
