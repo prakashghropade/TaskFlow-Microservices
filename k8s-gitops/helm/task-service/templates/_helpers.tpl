@@ -60,3 +60,9 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+
+{{/* create the secret name here */}}
+{{- define "task-service.secretName" -}}
+{{- include "task-service.fullname" . }}-secret
+{{- end }}
