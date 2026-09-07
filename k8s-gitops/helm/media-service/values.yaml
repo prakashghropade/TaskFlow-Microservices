@@ -177,3 +177,15 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+secrets:
+  KAFKA_BROKERS: "kafka-service:9092"
+  JWT_SECRET: "8vK7mQ2xP9rL4tY6nA3sW8cF1hJ5dZ0eG7uB2iX9pQ4mN6kR8vT3yL5wS1aC7fD"
+  JWT_EXPIRES_IN: "7d"
+  GATEWAY_SECRET: "G4xN9pL2vR7kT5mQ8zW1cY6hF3sA9dJ0uB5eK7nX2rP8tV4mL6qS9wC1iH3gZ5"
+  DATABASE_URL: "postgresql://neondb_owner:npg_EcLnIdUpO1w6@ep-noisy-smoke-aedkhddx-pooler.c-2.us-east-2.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
+  AWS_ENDPOINT_URL_S3: "https://br-nameless-boat-aeyn8zui.storage.c-2.us-east-2.aws.neon.tech"
+  AWS_ACCESS_KEY_ID: "nak_live_625c4eb8d92744cc8618ef011f118d2a"
+  AWS_SECRET_ACCESS_KEY: "nsk_live_eaffc72f8191961aac1402a74f0ebd0d03e2dceed6366aa06566511cfd4d3637"
+  AWS_REGION: "us-east-2"
+  STORAGE_BUCKET: "task-attachments"
