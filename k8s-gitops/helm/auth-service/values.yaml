@@ -177,3 +177,9 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+
+secrets:
+  JWT_SECRET: "8vK7mQ2xP9rL4tY6nA3sW8cF1hJ5dZ0eG7uB2iX9pQ4mN6kR8vT3yL5wS1aC7fD"
+  JWT_EXPIRES_IN: "7d"
+  GATEWAY_SECRET: "G4xN9pL2vR7kT5mQ8zW1cY6hF3sA9dJ0uB5eK7nX2rP8tV4mL6qS9wC1iH3gZ5"

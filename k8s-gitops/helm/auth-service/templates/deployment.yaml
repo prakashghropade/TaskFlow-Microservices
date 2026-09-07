@@ -45,6 +45,10 @@ spec:
               containerPort: {{ .Values.service.port }}
               protocol: TCP
 
+          envFrom:
+            - secretRef:
+                name: {{ include "auth-service.secretName" . }}
+
           {{- with .Values.startupProbe }}
           startupProbe:
             {{- toYaml . | nindent 12 }}

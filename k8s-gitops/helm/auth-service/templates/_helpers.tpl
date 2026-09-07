@@ -60,3 +60,12 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+
+{{ /* 
+ create the secrete name here
+ */}}
+
+{{- define "auth-service.secretName" -}}
+{{- include "auth-service.fullname" . }}-secret
+{{- end }}
