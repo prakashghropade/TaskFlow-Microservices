@@ -48,9 +48,7 @@ spec:
           envFrom:
             - secretRef:
                 name: {{ include "api-gatway.secretName" . }}
-
-          {{- with .Values.startupProbe }}
-
+                
           {{- with .Values.livenessProbe }}
           livenessProbe:
             {{- toYaml . | nindent 12 }}
