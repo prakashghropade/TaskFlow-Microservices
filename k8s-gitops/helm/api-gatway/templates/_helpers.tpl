@@ -60,3 +60,9 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+
+{{/* Define the name of the secret to use */}}
+{{- define "api-gatway.secretName" -}}
+{{- include "api-gatway.fullname" . }}-secret
+{{- end }}

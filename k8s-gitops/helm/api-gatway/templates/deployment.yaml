@@ -45,6 +45,12 @@ spec:
               containerPort: {{ .Values.service.port }}
               protocol: TCP
 
+          envFrom:
+            - secretRef:
+                name: {{ include "api-gatway.secretName" . }}
+
+          {{- with .Values.startupProbe }}
+
           {{- with .Values.livenessProbe }}
           livenessProbe:
             {{- toYaml . | nindent 12 }}
