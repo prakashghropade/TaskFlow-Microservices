@@ -11,9 +11,9 @@ spec:
     targetRevision: main
     path: k8s-gitops/helm/auth-service
   
-  helm:
-    valueFiles:
-      - values.yaml
+    helm:
+      valueFiles:
+        - values.yaml
 
   destination:
     server: 'https://kubernetes.default.svc'
