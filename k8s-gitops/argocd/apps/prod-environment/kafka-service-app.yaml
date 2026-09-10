@@ -1,0 +1,38 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kafka-service-prod-app
+  namespace: argocd
+
+spec:
+  project: microservicesproject
+  source:
+    repoURL: 'https://github.com/prakashghropade/TaskFlow-Microservices.git'
+    targetRevision: main
+    path: k8s-gitops/helm/kafka-service
+  
+    helm:
+      valueFiles:
+        - values-prod.yaml
+
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: microservices-dev
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+      allowEmpty: false
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+      - PruneLast=true
+      - ApplyOutOfSyncOnly=true
+      - ServerSideApply=true
+
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
