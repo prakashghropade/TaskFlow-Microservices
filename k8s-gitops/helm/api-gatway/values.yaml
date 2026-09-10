@@ -133,23 +133,23 @@ startupProbe:
   timeoutSeconds: 5
   failureThreshold: 30
 
-livenessProbe:
-  httpGet:
-    path: /health
-    port: 3000
-  initialDelaySeconds: 20
-  periodSeconds: 10
-  timeoutSeconds: 5
-  failureThreshold: 30
+# livenessProbe:
+#   httpGet:
+#     path: /health
+#     port: 3000
+#   initialDelaySeconds: 20
+#   periodSeconds: 10
+#   timeoutSeconds: 5
+#   failureThreshold: 30
 
-readinessProbe:
-  httpGet:
-    path: /health
-    port: 3000
-  initialDelaySeconds: 20
-  periodSeconds: 10
-  timeoutSeconds: 5
-  failureThreshold: 30
+# readinessProbe:
+#   httpGet:
+#     path: /health
+#     port: 3000
+#   initialDelaySeconds: 20
+#   periodSeconds: 10
+#   timeoutSeconds: 5
+#   failureThreshold: 30
 
 # This section is for setting up autoscaling more information can be found here: https://kubernetes.io/docs/concepts/workloads/autoscaling/
 autoscaling:
