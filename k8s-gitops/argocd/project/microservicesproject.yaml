@@ -11,6 +11,12 @@ spec:
   destinations:
     - namespace: microservices-dev
       server: 'https://kubernetes.default.svc'
+
+    - namespace: microservices-prod
+      server: 'https://kubernetes.default.svc'
+
+    - namespace: microservices-stag
+      server: 'https://kubernetes.default.svc'
     
     - namespace: argocd
       server: 'https://kubernetes.default.svc'
