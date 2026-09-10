@@ -9,7 +9,7 @@ spec:
   source:
     repoURL: 'https://github.com/prakashghropade/TaskFlow-Microservices.git'
     targetRevision: main
-    path: k8s-gitops/helm/api-gateway
+    path: k8s-gitops/helm/api-gatway
   
     helm:
       valueFiles:
