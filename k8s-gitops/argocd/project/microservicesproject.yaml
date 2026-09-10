@@ -8,11 +8,11 @@ spec:
   description: Microservices Project
   sourceRepos:
     - 'https://github.com/prakashghropade/TaskFlow-Microservices.git'
-  destination:
-    - namespace: microserviecs
+  destinations:
+    - namespace: microservices-dev
       server: 'https://kubernetes.default.svc'
     
-    - namespace: microserviecs
+    - namespace: argocd
       server: 'https://kubernetes.default.svc'
 
   clusterResourceWhitelist:
