@@ -1,0 +1,32 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: microservicesproject
+  namespace: argocd
+
+spec:
+  description: Microservices Project
+  sourceRepos:
+    - 'https://github.com/prakashghropade/TaskFlow-Microservices.git'
+  destination:
+    - namespace: microserviecs
+      server: 'https://kubernetes.default.svc'
+    
+    - namespace: microserviecs
+      server: 'https://kubernetes.default.svc'
+
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'
+  
+  namespaceResourceWhitelist:
+    - group: '*'
+      kind: '*'
+    
+  roles:
+    - name: admin
+      description: Admin role with full access
+      policies:
+        - p, proj:microservicesproject:admin, applications, *, microservicesproject/*, allow
+        - p, proj:memories-notes-app-project:admin, clusters, *, *, allow
+        - p, proj:memories-notes-app-project:admin, repositories, *, *, allow
