@@ -68,7 +68,7 @@ env:
     value: "PLAINTEXT://:9092,CONTROLLER://:9093"
 
   - name: KAFKA_ADVERTISED_LISTENERS
-    value: "PLAINTEXT://kafka-service:9092"
+    value: "PLAINTEXT://kafka-service-prod-app:9092"
 
   - name: KAFKA_LISTENER_SECURITY_PROTOCOL_MAP
     value: "PLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT"
@@ -78,7 +78,7 @@ env:
 
   - name: KAFKA_CONTROLLER_QUORUM_VOTERS
     value: "1@localhost:9093"
-
+  
   - name: KAFKA_INTER_BROKER_LISTENER_NAME
     value: "PLAINTEXT"
 
@@ -165,7 +165,6 @@ startupProbe:
   failureThreshold: 30
 
   
-
 readinessProbe:
   exec:
     command:
