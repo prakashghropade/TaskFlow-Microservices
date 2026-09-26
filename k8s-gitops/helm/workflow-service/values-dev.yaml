@@ -188,7 +188,7 @@ externalSecret:
     kind: ClusterSecretStore
 
   target:
-    name: my-app-secrets
+    name: workflow-service-dev-app-external-secret
     creationPolicy: Owner
 
   data:

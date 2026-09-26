@@ -189,7 +189,7 @@ affinity: {}
     kind: ClusterSecretStore
 
   target:
-    name: my-app-secrets
+    name: api-gateway-dev-app-external-secret
     creationPolicy: Owner
 
   data:

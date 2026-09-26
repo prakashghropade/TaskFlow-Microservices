@@ -189,7 +189,7 @@ externalSecret:
     kind: ClusterSecretStore
 
   target:
-    name: my-app-secrets
+    name: media-service-dev-app-external-secret 
     creationPolicy: Owner
 
   data:
