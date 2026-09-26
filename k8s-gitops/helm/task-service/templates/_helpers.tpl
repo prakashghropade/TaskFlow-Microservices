@@ -64,5 +64,5 @@ Create the name of the service account to use
 
 {{/* create the secret name here */}}
 {{- define "task-service.secretName" -}}
-{{- include "task-service.fullname" . }}-secret
+{{- include "task-service.fullname" . }}-external-secret
 {{- end }}

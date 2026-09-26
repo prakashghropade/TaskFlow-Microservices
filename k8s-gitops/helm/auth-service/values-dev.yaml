@@ -178,9 +178,37 @@ tolerations: []
 
 affinity: {}
 
+externalSecret:
+  enabled: true
 
-secrets:
-  JWT_SECRET: "8vK7mQ2xP9rL4tY6nA3sW8cF1hJ5dZ0eG7uB2iX9pQ4mN6kR8vT3yL5wS1aC7fD"
-  JWT_EXPIRES_IN: "7d"
-  GATEWAY_SECRET: "G4xN9pL2vR7kT5mQ8zW1cY6hF3sA9dJ0uB5eK7nX2rP8tV4mL6qS9wC1iH3gZ5"
-  DATABASE_URL: "postgresql://neondb_owner:npg_EcLnIdUpO1w6@ep-noisy-smoke-aedkhddx-pooler.c-2.us-east-2.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
+  refreshInterval: 1h
+
+  secretStoreRef:
+    name: vault-cluster-secret-store
+    kind: ClusterSecretStore
+
+  target:
+    name: my-app-secrets
+    creationPolicy: Owner
+
+  data:
+    - secretKey: JWT_SECRET
+      remoteRef:
+        key: microservices/auth-service
+        property: JWT_SECRET
+
+    - secretKey: JWT_EXPIRES_IN
+      remoteRef:
+        key: microservices/auth-service
+        property: JWT_EXPIRES_IN
+
+    - secretKey: GATEWAY_SECRET
+      remoteRef:
+        key: microservices/auth-service
+        property: GATEWAY_SECRET
+
+    - secretKey: DATABASE_URL
+      remoteRef:
+        key: microservices/auth-service
+        property: DATABASE_URL
+    

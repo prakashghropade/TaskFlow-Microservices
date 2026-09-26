@@ -64,5 +64,5 @@ Create the name of the service account to use
 
 {{/* create the secret name here */}}
 {{- define "media-service.secretName" -}}
-{{- include "media-service.fullname" . }}-secret
+{{- include "media-service.fullname" . }}-external-secret
 {{- end }}

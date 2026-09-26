@@ -65,5 +65,5 @@ Create the name of the service account to use
 {{/* create the secret name here */}}
 
 {{- define "auth-service.secretName" -}}
-{{- include "auth-service.fullname" . }}-secret
+{{- include "auth-service.fullname" . }}-external-secret
 {{- end }}
