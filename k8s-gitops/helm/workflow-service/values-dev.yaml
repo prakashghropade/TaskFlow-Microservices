@@ -184,32 +184,32 @@ externalSecret:
   refreshInterval: 1h
 
   secretStoreRef:
-    name: vault-cluster-secret-store
+    name: aws-secrets-manager
     kind: ClusterSecretStore
 
   target:
-    name: workflow-service-dev-app-external-secret
+    name: db-credentials
     creationPolicy: Owner
 
   data:
     - secretKey: JWT_SECRET
       remoteRef:
-        key: microservices/auth-service
+        key: prod/db-credentials
         property: JWT_SECRET
 
     - secretKey: JWT_EXPIRES_IN
       remoteRef:
-        key: microservices/auth-service
+        key: prod/db-credentials
         property: JWT_EXPIRES_IN
 
     - secretKey: GATEWAY_SECRET
       remoteRef:
-        key: microservices/auth-service
+        key: prod/db-credentials
         property: GATEWAY_SECRET
 
     - secretKey: DATABASE_URL
       remoteRef:
-        key: microservices/auth-service
+        key: prod/db-credentials
         property: DATABASE_URL
     
 
