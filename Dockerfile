@@ -26,7 +26,6 @@ RUN npm run build -w shared
 # Build the selected service.
 RUN npm run build -w ${SERVICE}
 
-
 # ================================
 # Stage 2 - Runtime
 # ================================
