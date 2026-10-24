@@ -232,4 +232,3 @@ affinity: {}
       remoteRef:
         key: prod/db-credentials
         property: WORKFLOW_SERVICE_URL
-    

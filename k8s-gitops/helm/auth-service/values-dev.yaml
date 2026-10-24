@@ -209,6 +209,6 @@ externalSecret:
 
     - secretKey: DATABASE_URL
       remoteRef:
-        key: microservices/auth-service
+        key: prod/db-credentials
         property: DATABASE_URL
     
