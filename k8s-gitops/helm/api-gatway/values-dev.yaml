@@ -179,7 +179,7 @@ tolerations: []
 affinity: {}
 
 
-  externalSecret:
+externalSecret:
   enabled: true
 
   refreshInterval: 1h

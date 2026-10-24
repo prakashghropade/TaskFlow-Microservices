@@ -188,7 +188,7 @@ externalSecret:
     kind: ClusterSecretStore
 
   target:
-    name: db-credentials
+    name: auth-service-dev-app-external-secret
     creationPolicy: Owner
 
   data:
