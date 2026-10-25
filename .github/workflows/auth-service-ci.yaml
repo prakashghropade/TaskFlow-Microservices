@@ -21,6 +21,10 @@ on:
     
 jobs:
   media-service:
+    permissions:
+      contents: read
+      actions: read
+      security-events: write
     uses: ./.github/workflows/reusable-service-ci.yml
 
     with:
