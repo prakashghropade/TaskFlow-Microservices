@@ -53,3 +53,6 @@ COPY --from=builder /app/packages/shared ./packages/shared
 CMD ["sh", "-c", "node apps/$SERVICE/dist/index.js"]
 
 
+
+
+
