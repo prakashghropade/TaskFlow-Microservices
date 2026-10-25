@@ -117,6 +117,33 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
+       # ADD TRIVY HERE
+
+
+      #------------------------------------------
+      # Trivy image scan+
+      #------------------------------------------
+
+      - name: Trivy Image Scan
+        uses: aquasecurity/trivy-action@v0.36.0
+        with:
+         image-ref: ${{ env.IMAGE_NAME }}
+         format: sarif
+         output: trivy-results.sarif
+         severity: HIGH,CRITICAL
+         exit-code: '1'
+         ignore-unfixed: true
+        continue-on-error: true
+
+      #----------------------------------------
+      # Trivy image scanning report
+      #---------------------------------------
+
+      - name: Upload Trivy Results to GitHub
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: trivy-results.sarif
 
       # ---------------------------------------
       # Push Docker Image
