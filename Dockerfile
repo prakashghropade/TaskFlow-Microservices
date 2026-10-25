@@ -51,6 +51,3 @@ COPY --from=builder /app/packages/shared ./packages/shared
 
 # Start the compiled service without requiring dev-only tooling such as tsx.
 CMD ["sh", "-c", "node apps/$SERVICE/dist/index.js"]
-
-
-
