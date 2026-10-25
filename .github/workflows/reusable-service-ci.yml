@@ -33,6 +33,11 @@ on:
 env:
   IMAGE_NAME: prakashghorpade2001/${{ inputs.service }}:${{ inputs.image_tag }}
 
+# Add concurrency here
+concurrency:
+  group: sonarqube-${{ github.repository }}-${{ github.ref }}
+  cancel-in-progress: false
+
 
 jobs:
 
