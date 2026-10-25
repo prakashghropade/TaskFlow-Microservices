@@ -21,6 +21,14 @@ on:
       DOCKERHUB_PASSWORD:
         required: true
 
+      SONAR_TOKEN:
+        required: true
+
+      SONAR_HOST_URL:
+        required: true
+      
+
+
 
 env:
   IMAGE_NAME: prakashghorpade2001/${{ inputs.service }}:${{ inputs.image_tag }}
