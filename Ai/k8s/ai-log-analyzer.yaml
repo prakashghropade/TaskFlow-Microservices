@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ai-log-analyzer
+  namespace: default
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: ai-log-analyzer
+
+  template:
+    metadata:
+      labels:
+        app: ai-log-analyzer
+
+    spec:
+      serviceAccountName: ai-log-analyzer
+
+      containers:
+        - name: ai-log-analyzer
+          image: ai-log-analyzer:6.1
+          imagePullPolicy: IfNotPresent
+
+          ports:
+            - containerPort: 8000
+
+          env:
+            - name: OLLAMA_URL
+              value: "http://<PVT IP>:11434"
+
+            - name: OLLAMA_MODEL
+              value: "qwen2.5:1.5b"
+
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 10
+
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 20
+            periodSeconds: 20
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ai-log-analyzer
+  namespace: default
+spec:
+  selector:
+    app: ai-log-analyzer
+
+  ports:
+    - port: 80
+      targetPort: 8000
+
+  type: ClusterIP
