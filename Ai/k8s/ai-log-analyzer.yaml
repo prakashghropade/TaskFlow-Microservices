@@ -20,7 +20,7 @@ spec:
 
       containers:
         - name: ai-log-analyzer
-          image: ai-log-analyzer:6.1
+          image: prakashghorpade2001/ai-log-analyzer:6.1
           imagePullPolicy: IfNotPresent
 
           ports:
