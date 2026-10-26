@@ -28,7 +28,7 @@ spec:
 
           env:
             - name: OLLAMA_URL
-              value: "http://<PVT IP>:11434"
+              value: "http://172.31.11.182:11434"
 
             - name: OLLAMA_MODEL
               value: "qwen2.5:1.5b"
