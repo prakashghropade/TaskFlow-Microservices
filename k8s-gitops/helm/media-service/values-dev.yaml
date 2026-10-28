@@ -111,17 +111,17 @@ httpRoute:
   #     - name: version
   #       value: v2
 
-resources: {}
+resources:
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
 
 # This is to setup the liveness and readiness probes more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
 startupProbe:
@@ -153,7 +153,7 @@ readinessProbe:
 
 # This section is for setting up autoscaling more information can be found here: https://kubernetes.io/docs/concepts/workloads/autoscaling/
 autoscaling:
-  enabled: false
+  enabled: true
   minReplicas: 1
   maxReplicas: 100
   targetCPUUtilizationPercentage: 80
@@ -185,61 +185,60 @@ externalSecret:
   refreshInterval: 1h
 
   secretStoreRef:
-    name: vault-cluster-secret-store
+    name: aws-secrets-manager
     kind: ClusterSecretStore
 
   target:
-    name: media-service-dev-app-external-secret 
+    name: media-service-dev-app-external-secret
     creationPolicy: Owner
 
   data:
     - secretKey: JWT_SECRET
       remoteRef:
-        key: microservices/auth-service
+        key: prod/db-credentials
         property: JWT_SECRET
 
     - secretKey: JWT_EXPIRES_IN
       remoteRef:
-        key: microservices/auth-service
+        key: prod/db-credentials
         property: JWT_EXPIRES_IN
 
     - secretKey: GATEWAY_SECRET
       remoteRef:
-        key: microservices/auth-service
+        key: prod/db-credentials
         property: GATEWAY_SECRET
 
     - secretKey: DATABASE_URL
       remoteRef:
-        key: microservices/auth-service
+        key: prod/db-credentials
         property: DATABASE_URL
 
     - secretKey: KAFKA_BROKERS
       remoteRef:
-        key: microservices/media-service
+        key: prod/db-credentials
         property: KAFKA_BROKERS
 
     - secretKey: AWS_ENDPOINT_URL_S3
       remoteRef:
-        key: microservices/media-service
+        key: prod/db-credentials
         property: AWS_ENDPOINT_URL_S3
 
     - secretKey: AWS_ACCESS_KEY_ID
       remoteRef:
-        key: microservices/media-service
+        key: prod/db-credentials
         property: AWS_ACCESS_KEY_ID
 
     - secretKey: AWS_SECRET_ACCESS_KEY
       remoteRef:
-        key: microservices/media-service
+        key: prod/db-credentials
         property: AWS_SECRET_ACCESS_KEY
 
     - secretKey: AWS_REGION
       remoteRef:
-        key: microservices/media-service
+        key: prod/db-credentials
         property: AWS_REGION
 
     - secretKey: STORAGE_BUCKET
       remoteRef:
-        key: microservices/media-service
+        key: prod/db-credentials
         property: STORAGE_BUCKET
-    

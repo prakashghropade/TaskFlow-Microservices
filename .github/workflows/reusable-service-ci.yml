@@ -21,21 +21,35 @@ on:
       DOCKERHUB_PASSWORD:
         required: true
 
+      SONAR_TOKEN:
+        required: true
+
+      SONAR_HOST_URL:
+        required: true
+      
+
+
 
 env:
   IMAGE_NAME: prakashghorpade2001/${{ inputs.service }}:${{ inputs.image_tag }}
+
+# Add concurrency here
+concurrency:
+  group: sonarqube-${{ github.repository }}-${{ github.ref }}
+  cancel-in-progress: false
 
 
 jobs:
 
   ci:
+    permissions:
+      contents: read
+      actions: read
+      security-events: write
 
     name: CI - ${{ inputs.service }}
 
-    runs-on: ubuntu-latest
-
-    permissions:
-      contents: read
+    runs-on: ubuntu-26.04
 
     steps:
 
@@ -45,6 +59,27 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      #----------------------------------------
+      # Run SonarQube analysis
+      #----------------------------------------
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@7006c4492b2e0ee0f816d36501671557c97f5995
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+      
+      #-----------------------------------------
+      # Fail pipeline if Quality Gate fails
+      #-----------------------------------------
+      
+      - name: SonarQube Quality Gate
+        uses: SonarSource/sonarqube-quality-gate-action@v1
+        timeout-minutes: 5
+        with:
+          pollingTimeoutSec: 300
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
 
       # ---------------------------------------
       # Setup Docker Buildx
@@ -83,6 +118,32 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
+       # ADD TRIVY HERE
+
+
+      #------------------------------------------
+      # Trivy image scan+
+      #------------------------------------------
+
+      - name: Trivy Image Scan
+        uses: aquasecurity/trivy-action@v0.36.0
+        with:
+         image-ref: ${{ env.IMAGE_NAME }}
+         format: sarif
+         output: trivy-results.sarif
+         severity: HIGH,CRITICAL
+         exit-code: '1'
+         ignore-unfixed: true
+
+      #----------------------------------------
+      # Trivy image scanning report
+      #---------------------------------------
+
+      - name: Upload Trivy results to GitHub
+        if: always() && hashFiles('trivy-results.sarif') != ''
+        uses: github/codeql-action/upload-sarif@v4
+        with:
+          sarif_file: trivy-results.sarif
 
       # ---------------------------------------
       # Push Docker Image

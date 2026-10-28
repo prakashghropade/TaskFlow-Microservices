@@ -1,0 +1,13 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: ai-log-analyzer
+  namespace: default
+subjects:
+  - kind: ServiceAccount
+    name: ai-log-analyzer
+    namespace: default
+roleRef:
+  kind: Role
+  name: ai-log-analyzer
+  apiGroup: rbac.authorization.k8s.io
