@@ -82,6 +82,12 @@ The terminal output shows Horizontal Pod Autoscaler resources reported for the m
 
 ![Kubernetes Horizontal Pod Autoscaler status](architecture-diagrams/WhatsApp%20Image%202026-10-28%20at%209.29.27%20PM%20%283%29.jpeg)
 
+### Secrets management
+
+AWS Secrets Manager acts as the external secret store for sensitive deployment configuration. The Kubernetes External Secrets Operator (ESO) can synchronize configured values into Kubernetes Secrets for workloads to consume. This screenshot shows the Secrets Manager entry; account identifiers and secret values are intentionally excluded.
+
+![AWS Secrets Manager entry used with External Secrets Operator](architecture-diagrams/asm-redacted.jpeg)
+
 ### TLS and DNS
 
 The AWS Certificate Manager view shows certificate issuance and domain validation status.
