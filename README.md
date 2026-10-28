@@ -38,6 +38,20 @@ The workflow is defined in `.github/workflows/` and the deployment configuration
 
 These screenshots illustrate code-quality reporting and the Kubernetes/GitOps environment. The SonarQube dashboard is a point-in-time view; its findings and quality-gate status can change between analyses.
 
+### AI Kubernetes Log Analyzer
+
+The AI analyzer includes an HTTP API for checking service health, analyzing supplied logs, and requesting pod-log analysis. The OpenAPI page shows the available analyzer endpoints.
+
+![AI Kubernetes Log Analyzer API documentation](architecture-diagrams/aianalyzer1.jpeg)
+
+The health-check response screenshot shows the analyzer returning a healthy status. It demonstrates service availability, not the result of an AI log analysis.
+
+![AI Kubernetes Log Analyzer health-check response](architecture-diagrams/aianalyzer2.jpeg)
+
+The pod-analysis screenshot captures an example request that returned `404 Not Found`. It documents an unsuccessful test response rather than a successful pod-log analysis.
+
+![AI Kubernetes Log Analyzer pod-analysis request](architecture-diagrams/aianalyzer3.jpeg)
+
 ### Code quality and security
 
 The SonarQube project overview shows the quality-gate status and code-quality metrics at the time of capture.
