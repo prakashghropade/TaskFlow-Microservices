@@ -1,6 +1,6 @@
 # TaskFlow Microservices
 
-TaskFlow is a TypeScript and Node.js microservices application for user authentication, task management, file attachments, and task workflow history. An API gateway routes client requests to the services, while Kafka carries task and attachment events to the workflow service.
+TaskFlow is a DevSecOps-focused, TypeScript and Node.js microservices application for user authentication, task management, file attachments, and task workflow history. Its delivery workflow integrates code quality and container security checks with GitOps-based Kubernetes deployment.
 
 ## Architecture
 
@@ -19,6 +19,64 @@ The services share common database, Kafka, authentication, logging, and HTTP uti
 | PostgreSQL | external | Persists users, tasks, attachments, and workflows |
 
 The gateway adds a shared secret when proxying requests to internal services. For protected routes it validates the bearer token and forwards the authenticated user identity to the service. Task and media events are published to Kafka and consumed by the workflow service.
+
+## DevSecOps delivery
+
+Security and quality checks are incorporated into the CI/CD and deployment workflow:
+
+- **Continuous integration:** GitHub Actions workflows run for service changes on pushes to `main` and pull requests, using a shared service pipeline.
+- **Static analysis and quality gates:** SonarQube analyzes the code, and the pipeline stops if the configured quality gate fails.
+- **Container vulnerability scanning:** Trivy scans built images for **HIGH** and **CRITICAL** vulnerabilities, fails the pipeline when findings are detected, and ignores unfixed vulnerabilities. Results are uploaded to GitHub in SARIF format.
+- **Controlled image publishing:** Docker images are pushed only after the preceding pipeline checks succeed. Registry and SonarQube credentials are provided through GitHub Actions secrets.
+- **GitOps deployment:** Helm charts describe the Kubernetes workloads, and Argo CD synchronizes the environment configuration from Git with automated self-healing.
+- **Cloud operations:** The repository includes AWS EKS deployment configuration, Kubernetes health checks and autoscaling, and External Secrets integration with AWS Secrets Manager.
+- **Application security:** The API gateway applies rate limiting and security headers, verifies JWTs, enforces role-based access, and authenticates internal service requests with a gateway secret.
+
+The workflow is defined in `.github/workflows/` and the deployment configuration is under `k8s-gitops/`. Configure GitHub Actions secrets and cloud credentials in the deployment environment; do not store live credentials in source files or screenshots.
+
+## Platform screenshots
+
+These screenshots illustrate code-quality reporting and the Kubernetes/GitOps environment. The SonarQube dashboard is a point-in-time view; its findings and quality-gate status can change between analyses.
+
+### Code quality and security
+
+The SonarQube project overview shows the quality-gate status and code-quality metrics at the time of capture.
+
+![SonarQube project overview and quality gate](architecture-diagrams/WhatsApp%20Image%202026-10-28%20at%209.29.24%20PM.jpeg)
+
+The issue view shows security findings identified by static analysis for follow-up and remediation.
+
+![SonarQube security and code issue list](architecture-diagrams/WhatsApp%20Image%202026-10-28%20at%209.29.24%20PM%20%281%29.jpeg)
+
+### GitOps and Kubernetes
+
+Argo CD shows the development applications and their reported synchronization and health status.
+
+![Argo CD development applications](architecture-diagrams/WhatsApp%20Image%202026-10-28%20at%209.29.26%20PM.jpeg)
+
+This second view continues the Argo CD application list, including the workflow service.
+
+![Argo CD development applications continued](architecture-diagrams/WhatsApp%20Image%202026-10-28%20at%209.29.26%20PM%20%281%29.jpeg)
+
+The AWS console screenshots show EKS cluster configuration and its available cluster resources.
+
+![AWS EKS cluster overview](architecture-diagrams/WhatsApp%20Image%202026-10-28%20at%209.29.27%20PM.jpeg)
+
+![AWS EKS cluster resources and configuration](architecture-diagrams/WhatsApp%20Image%202026-10-28%20at%209.29.27%20PM%20%281%29.jpeg)
+
+The terminal output shows Horizontal Pod Autoscaler resources reported for the microservices namespace.
+
+![Kubernetes Horizontal Pod Autoscaler status](architecture-diagrams/WhatsApp%20Image%202026-10-28%20at%209.29.27%20PM%20%283%29.jpeg)
+
+### TLS and DNS
+
+The AWS Certificate Manager view shows certificate issuance and domain validation status.
+
+![AWS Certificate Manager certificate status](architecture-diagrams/WhatsApp%20Image%202026-10-28%20at%209.29.25%20PM.jpeg)
+
+The Route 53 view shows DNS records for the project domain.
+
+![Amazon Route 53 hosted-zone records](architecture-diagrams/WhatsApp%20Image%202026-10-28%20at%209.29.27%20PM%20%284%29.jpeg)
 
 ## Technology
 
@@ -130,7 +188,7 @@ The root `Dockerfile` builds one service per image. Supply the workspace name th
 
 ## Deployment
 
-The `k8s-gitops/` directory contains Helm charts and Argo CD application definitions for development, staging, and production environments. Review and configure the environment-specific Helm values and secrets before deploying.
+The `k8s-gitops/` directory contains Helm charts and Argo CD application definitions for development, staging, and production environments. Review and configure the environment-specific Helm values, AWS access, and secrets before deploying.
 
 ## Repository layout
 
